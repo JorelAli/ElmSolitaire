@@ -1,10 +1,11 @@
 import Browser
 import Html exposing (Html, button, div, text)
+import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Html.Styled exposing (toUnstyled)
 import Dom exposing (..)
-import Css exposing (backgroundColor, color, rgb, backgroundImage, url)
-import Css.Global exposing (global, everything, selector)
+import Css exposing (..)
+import Css.Global exposing (global, selector, class)
 import Dict exposing (Dict)
 import Random
 import Html5.DragDrop as DragDrop exposing (Position)
@@ -18,11 +19,9 @@ main =
 
 -- MAGIC NUMBERS
 
-actualCardWidth = 170
-actualCardHeight = actualCardWidth * 1.4
+cardWidth = 170
+cardHeight = cardWidth * 1.4
 
-cardHeight = (String.fromFloat actualCardHeight) ++ "px"
-cardWidth = (String.fromFloat actualCardWidth) ++ "px"
 cardOverlay = "-230px"
 
 
@@ -113,31 +112,45 @@ update msg model =
 
 globalStyleNode : Html Msg
 globalStyleNode = global 
-  [ selector "body" [ backgroundImage (url "bg.jpg") ] ] 
+  [ 
+    selector "body" [ backgroundImage (url "bg.jpg") ]
+    , class "card" [
+      backgroundColor (hex "#ffffff")
+      , Css.width (px cardWidth)
+      , Css.height (px cardHeight)
+      , borderStyle solid
+      , borderRadius (px 30)
+      , verticalAlign middle
+      , fontFamilies ["Helvetica"]
+      , fontSize (px 20)
+      , float left
+      , marginRight (px 10)
+      , marginBottom (px 10)
+      , padding (px 10)
+      , position relative
+    ]
+  ] 
   |> toUnstyled
 
 card : String -> String -> Element Msg
 card number cardType = element "div"
   |> addClass "card"
-  |> addStyleList [
-      ("background-color", "white")
-    , ("width", cardWidth)
-    , ("height", cardHeight)
-    , ("border-style", "solid")
-    , ("border-radius", "30px")
-    , ("vertical-align", "middle")
-    , ("font-family", "Helvetica")
-    , ("font-size", "20px")
-    , ("float", "left")
-    , ("margin-right", "10px")
-    , ("margin-bottom", "10px")
-    , ("padding", "10px")
-    , ("position", "relative")
-  ]
   |> appendChildList [
       element "p" 
-        |> appendText (number ++ " " ++ cardType) 
+        |> appendText (number ++ "\n") 
         |> addStyle ("margin", "0")
+        |> addStyle ("font-weight", "bold")
+    , element "span"
+        |> appendChild (element "img" 
+          |> addAttributeList [ 
+            (src (cardType ++ ".png"))
+            , (draggable "false") 
+            ] 
+          |> addStyleList [ 
+            ("max-width", "100%"), 
+            ("max-height", "100%")
+            ]
+          )
     , element "p" 
         |> appendText number 
         |> addStyleList [ 
@@ -145,6 +158,7 @@ card number cardType = element "div"
           , ("bottom", "10px")
           , ("right", "10px")
           , ("margin", "0") 
+          , ("font-weight", "bold")
         ]
   ]
 
@@ -158,6 +172,14 @@ renderPiles amount first =
   else renderPiles (amount - 1) first ++ [card (cardNumbers 1) (cardTypes 1) 
     |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
     |> addStyleConditional ("margin-top", cardOverlay) first] 
+
+renderAllPiles = 
+  let
+    renderAllPiles_ num =
+      if num == 0 
+      then []
+      else (renderPiles num (num /= 7)) ++ renderAllPiles_ (num - 1)
+  in renderAllPiles_ 7
 
 view : Model -> Html Msg
 view model = 
@@ -177,25 +199,5 @@ view model =
       , card (cardNumbers 2) (cardTypes 2) |> addStyle ("opacity", "0")
     ]
   |> appendChild (card (cardNumbers 2) (cardTypes 2) |> addAttributeList (DragDrop.draggable DragDropMsg 1))
-  |> appendChildList (renderPiles 7 False)
-  |> appendChildList (renderPiles 6 True)
-  |> appendChildList (renderPiles 5 True)
-  |> appendChildList (renderPiles 4 True)
-  |> appendChildList (renderPiles 3 True)
-  |> appendChildList (renderPiles 2 True)
-  |> appendChildList (renderPiles 1 True)
-  -- element "div"
-  -- |> appendChildList
-  --   [ element "button"
-  --   |> addAction ("click", Decrement)
-  --   |> appendText "-"
-
-  --   , element "div"
-  --   |> appendText (String.fromInt model)
-
-  --   , element "button"
-  --   |> addAction ("click", Increment)
-  --   |> appendText "+"
-
-  --   ]
+  |> appendChildList (renderAllPiles)
   |> render 
