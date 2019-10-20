@@ -15,6 +15,12 @@ main =
   Browser.sandbox { init = init, update = update, view = view }
 
 
+-- MAGIC NUMBERS
+
+cardHeight = "250px"
+cardWidth = "150px"
+cardOverlay = "-230px"
+
 
 -- MODEL
 
@@ -106,8 +112,8 @@ card : String -> String -> Element Msg
 card number cardType = element "div"
   |> addClass "card"
   |> addStyle ("background-color", "white")
-  |> addStyle ("width", "150px")
-  |> addStyle ("height", "250px")
+  |> addStyle ("width", cardWidth)
+  |> addStyle ("height", cardHeight)
   |> addStyle ("border-style", "solid")
 
   |> addStyle ("text-align", "center")
@@ -115,24 +121,83 @@ card number cardType = element "div"
 
   |> addStyle ("font-family", "Helvetica")
   |> addStyle ("font-size", "30px")
+  
+  |> addStyle ("float", "left")
+  |> addStyle ("margin-right", "10px")
+  |> addStyle ("margin-bottom", "10px")
   |> appendChildList [
-    element "p"
-    |> appendText number
-    , element "p"
-    |> appendText cardType
+    element "p" |> appendText number
+    , element "p" |> appendText cardType
   ]
 
 view : Model -> Html Msg
 view model = 
   element "div"
   |> appendNode globalStyleNode
-  |> addStyle ("background-color", "lightgreen")
-  |> appendText "hi"
   |> appendChildList
     [
-      card (cardNumbers 2) (cardTypes 2) |> addAttributeList (DragDrop.draggable DragDropMsg 1)
-      , card (cardNumbers 3) (cardTypes 3) |> addAttributeList (DragDrop.droppable DragDropMsg 1)
-      , card (cardNumbers 10) (cardTypes 3) |> addAttributeList (DragDrop.droppable DragDropMsg 2)
+      card (cardNumbers 2) (cardTypes 2) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+      , card (cardNumbers 3) (cardTypes 3) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+      , card (cardNumbers 10) (cardTypes 3) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+      , card (cardNumbers 10) (cardTypes 3) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+    ]
+  |> appendChildList
+    [
+      element "div" |> addStyle ("float", "left") |> addStyle ("margin-right", "10px") |> addStyle ("width", cardWidth) |> addStyle ("height", "1px") |> addStyle ("border", "3px solid transparent")
+      , element "div" |> addStyle ("float", "left") |> addStyle ("margin-right", "10px") |> addStyle ("width", cardWidth) |> addStyle ("height", "1px") |> addStyle ("border", "3px solid transparent")
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 2) (cardTypes 2) |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("clear", "both")
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) 
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("clear", "both") |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("clear", "both") |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("clear", "both") |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("clear", "both") |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("clear", "both") |> addStyle ("margin-top", cardOverlay)
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("margin-top", cardOverlay)
+    ]
+  |> appendChildList
+    [
+      card (cardNumbers 1) (cardTypes 1) |> addAttributeList (DragDrop.draggable DragDropMsg 1) |> addStyle ("clear", "both") |> addStyle ("margin-top", cardOverlay)
     ]
   -- element "div"
   -- |> appendChildList
