@@ -58,9 +58,17 @@ type alias Card = {
   , domElement : Element Msg
   }
 
-allCards : Int -> List (Element Msg)
-allCards i = if i == 0 then []
-  else (card (cardNumbers i) (cardTypes 1)) :: allCards (i - 1) --card (cardNumbers 1) (cardTypes 1)
+allCards__ : Int -> List (Element Msg)
+allCards__ j = allCards 13 j
+
+allCards : Int -> Int -> List (Element Msg)
+allCards i j = if i == 0 then []
+  else (card (cardNumbers i) (cardTypes j)) :: allCards (i - 1) j --card (cardNumbers 1) (cardTypes 1)
+
+allCards_ j = if j == 4 then []
+  else allCards__ j ++ allCards_ (j + 1)
+
+allCards___ = allCards_ 0
 
 -- type R = A Int
 
@@ -188,16 +196,17 @@ view model =
   |> appendNode globalStyleNode
   |> appendChildList
     [
-      card (cardNumbers 2) (cardTypes 2) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
-      , card (cardNumbers 3) (cardTypes 3) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
-      , card (cardNumbers 10) (cardTypes 3) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
-      , card (cardNumbers 10) (cardTypes 3) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+        card (cardNumbers 1) (cardTypes 0) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+      , card (cardNumbers 1) (cardTypes 1) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+      , card (cardNumbers 1) (cardTypes 2) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
+      , card (cardNumbers 1) (cardTypes 3) |> addAttributeList ((DragDrop.draggable DragDropMsg 1) ++ (DragDrop.droppable DragDropMsg 1))
     ]
   |> appendChildList
     [
-      card (cardNumbers 2) (cardTypes 2)  |> addStyle ("opacity", "0")
-      , card (cardNumbers 2) (cardTypes 2) |> addStyle ("opacity", "0")
+          card "" "heart" |> addStyle ("opacity", "0")
+        , card "" "heart" |> addStyle ("opacity", "0")
     ]
   |> appendChild (card (cardNumbers 2) (cardTypes 2) |> addAttributeList (DragDrop.draggable DragDropMsg 1))
-  |> appendChildList (renderAllPiles)
+  |> appendChildList renderAllPiles
+  -- |> appendChild (element "p" |> appendText (String.fromInt (List.length <| allCards_ 0)))
   |> render 
