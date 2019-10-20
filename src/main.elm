@@ -6,7 +6,8 @@ import Dom exposing (..)
 import Css exposing (backgroundColor, color, rgb)
 import Css.Global exposing (global, everything, selector)
 import Dict exposing (Dict)
-
+import Random
+import Html5.DragDrop as DragDrop exposing (Position)
 
 -- MAIN
 
@@ -17,6 +18,7 @@ main =
 
 -- MODEL
 
+cardNumbers : Int -> String
 cardNumbers num = case num of 
   1 -> "A"
   2 -> "2"
@@ -33,6 +35,7 @@ cardNumbers num = case num of
   13 -> "K"
   _ -> "?"
 
+cardTypes : Int -> String
 cardTypes num = case num of
   0 -> "Diamond"
   1 -> "Heart"
@@ -46,24 +49,50 @@ type alias Card = {
   , domElement : Element Msg
   }
 
-type alias Model = Int
+-- type R = A Int
+
+-- randomCard : Card
+-- randomCard = 
+--   let
+--     num = Random.generate A (Random.int 1 13)
+--     typ = Random.generate A (Random.int 0 3)
+--   in {
+--     numericalValue = num
+--     , cardType = typ
+--     , domElement = card (cardNumbers num) (cardTypes typ)
+--   } 
+
+type alias Model = {
+  data : { a : Int, pos : Position }
+  , dragDrop : DragDrop.Model Int Int
+  }
 
 init : Model
-init = 0
+init = { 
+  data = { a = 0, pos = {width = 0, height = 0, x = 0, y = 0}}
+  , dragDrop = DragDrop.init
+  }
 
 
 -- UPDATE
 
-type Msg = Increment | Decrement
+type Msg = DragDropMsg (DragDrop.Msg Int Int)
 
 update : Msg -> Model -> Model
 update msg model =
   case msg of
-  Increment ->
-    model + 1
 
-  Decrement ->
-    model - 1
+  DragDropMsg msg_ ->
+    let 
+      (model_, result) = DragDrop.update msg_ model.dragDrop
+    in
+      { model
+          | dragDrop = model_
+          , data = case result of
+            Nothing -> model.data
+            Just (dragID, dropID, position) -> { a = 0, pos = position}
+          --, ...use result if available...
+      }
 
 
 -- VIEW
@@ -101,7 +130,8 @@ view model =
   |> appendText "hi"
   |> appendChildList
     [
-      card (cardNumbers 2) (cardTypes 2)
+      card (cardNumbers 2) (cardTypes 2) |> appendNode (div (DragDrop.draggable DragDropMsg 1) [ text "hi"])
+      , card (cardNumbers 3) (cardTypes 3) |> appendNode (div (DragDrop.droppable DragDropMsg 1) [ text "hi"])
     ]
   -- element "div"
   -- |> appendChildList
