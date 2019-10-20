@@ -130,8 +130,9 @@ view model =
   |> appendText "hi"
   |> appendChildList
     [
-      card (cardNumbers 2) (cardTypes 2) |> appendNode (div (DragDrop.draggable DragDropMsg 1) [ text "hi"])
-      , card (cardNumbers 3) (cardTypes 3) |> appendNode (div (DragDrop.droppable DragDropMsg 1) [ text "hi"])
+      card (cardNumbers 2) (cardTypes 2) |> addAttributeList (DragDrop.draggable DragDropMsg 1)
+      , card (cardNumbers 3) (cardTypes 3) |> addAttributeList (DragDrop.droppable DragDropMsg 1)
+      , card (cardNumbers 10) (cardTypes 3) |> addAttributeList (DragDrop.droppable DragDropMsg 2)
     ]
   -- element "div"
   -- |> appendChildList
