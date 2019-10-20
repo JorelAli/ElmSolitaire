@@ -3,7 +3,7 @@ import Html exposing (Html, button, div, text)
 import Html.Events exposing (onClick)
 import Html.Styled exposing (toUnstyled)
 import Dom exposing (..)
-import Css exposing (backgroundColor, color, rgb)
+import Css exposing (backgroundColor, color, rgb, backgroundImage, url)
 import Css.Global exposing (global, everything, selector)
 import Dict exposing (Dict)
 import Random
@@ -17,8 +17,11 @@ main =
 
 -- MAGIC NUMBERS
 
-cardHeight = "250px"
-cardWidth = "150px"
+actualCardWidth = 170
+actualCardHeight = actualCardWidth * 1.4
+
+cardHeight = (String.fromFloat actualCardHeight) ++ "px"
+cardWidth = (String.fromFloat actualCardWidth) ++ "px"
 cardOverlay = "-230px"
 
 
@@ -105,7 +108,7 @@ update msg model =
 
 globalStyleNode : Html Msg
 globalStyleNode = global 
-  [ selector "body" [ backgroundColor (rgb 255 255 255 ) ] ] 
+  [ selector "body" [ backgroundImage (url "bg.jpg") ] ] 
   |> toUnstyled
 
 card : String -> String -> Element Msg
@@ -115,16 +118,18 @@ card number cardType = element "div"
   |> addStyle ("width", cardWidth)
   |> addStyle ("height", cardHeight)
   |> addStyle ("border-style", "solid")
+  |> addStyle ("border-radius", "30px")
 
-  |> addStyle ("text-align", "center")
+  -- |> addStyle ("text-align", "center")
   |> addStyle ("vertical-align", "middle")
 
   |> addStyle ("font-family", "Helvetica")
-  |> addStyle ("font-size", "30px")
+  |> addStyle ("font-size", "20px")
   
   |> addStyle ("float", "left")
   |> addStyle ("margin-right", "10px")
   |> addStyle ("margin-bottom", "10px")
+  |> addStyle ("padding", "10px")
   |> appendChildList [
     element "p" |> appendText number
     , element "p" |> appendText cardType
@@ -133,6 +138,7 @@ card number cardType = element "div"
 view : Model -> Html Msg
 view model = 
   element "div"
+  
   |> appendNode globalStyleNode
   |> appendChildList
     [
@@ -143,8 +149,11 @@ view model =
     ]
   |> appendChildList
     [
-      element "div" |> addStyle ("float", "left") |> addStyle ("margin-right", "10px") |> addStyle ("width", cardWidth) |> addStyle ("height", "1px") |> addStyle ("border", "3px solid transparent")
-      , element "div" |> addStyle ("float", "left") |> addStyle ("margin-right", "10px") |> addStyle ("width", cardWidth) |> addStyle ("height", "1px") |> addStyle ("border", "3px solid transparent")
+      -- element "div" |> addStyle ("float", "left") |> addStyle ("margin-right", "10px") |> addStyle ("width", cardWidth) |> addStyle ("height", "1px") |> addStyle ("border", "3px solid transparent")
+      -- , element "div" |> addStyle ("float", "left") |> addStyle ("margin-right", "10px") |> addStyle ("width", cardWidth) |> addStyle ("height", "1px") |> addStyle ("border", "3px solid transparent")
+      card (cardNumbers 2) (cardTypes 2)  |> addStyle ("opacity", "0")
+      ,
+            card (cardNumbers 2) (cardTypes 2) |> addStyle ("opacity", "0")
     ]
   |> appendChildList
     [
