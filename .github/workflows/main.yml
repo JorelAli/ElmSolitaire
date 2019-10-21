@@ -9,4 +9,4 @@ jobs:
     
     steps:
     - name: Set up
-      uses: jorelali/elmsolitaire@v3
+      uses: jorelali/elmsolitaire@v4
