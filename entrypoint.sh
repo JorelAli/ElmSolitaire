@@ -1,3 +1,4 @@
+#!/bin/bash
 echo "Running $*"
 
-elm $*
+elm make src/main.elm
