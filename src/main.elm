@@ -70,19 +70,6 @@ allCards_ j = if j == 4 then []
 
 allCards___ = allCards_ 0
 
--- type R = A Int
-
--- randomCard : Card
--- randomCard = 
---   let
---     num = Random.generate A (Random.int 1 13)
---     typ = Random.generate A (Random.int 0 3)
---   in {
---     numericalValue = num
---     , cardType = typ
---     , domElement = card (cardNumbers num) (cardTypes typ)
---   } 
-
 type alias Model = {
   data : { a : Int, pos : Position }
   , dragDrop : DragDrop.Model Int Int
