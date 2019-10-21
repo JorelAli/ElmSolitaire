@@ -9,4 +9,4 @@ jobs:
     
     steps:
     - name: Running elm make in Docker
-      uses: jorelali/elmsolitaire@v4
+      uses: jorelali/elmsolitaire@v5
