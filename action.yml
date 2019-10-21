@@ -1,0 +1,6 @@
+# action.yml
+name: 'Elm compile'
+description: 'Runs elm project'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
