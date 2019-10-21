@@ -9,4 +9,4 @@ jobs:
     
     steps:
     - name: Set up
-      uses: actions/ElmSolitaire@v1
+      uses: actions/elmsolitaire@v1
