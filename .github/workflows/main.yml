@@ -8,5 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Running elm make in Docker
+    - name: Checkout
+      uses: actions/checkout@v1
+    - uses: ./ # Uses an action in the root directory
+    - name: Running 'elm make' in Docker
       uses: jorelali/elmsolitaire@v5

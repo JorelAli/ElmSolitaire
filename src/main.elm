@@ -81,7 +81,7 @@ init = {
   , dragDrop = DragDrop.init
   }
 
-##
+
 -- UPDATE
 
 type Msg = DragDropMsg (DragDrop.Msg Int Int)
