@@ -8,5 +8,5 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Set up
+    - name: Running elm make in Docker
       uses: jorelali/elmsolitaire@v4
