@@ -9,7 +9,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - uses: jorelali/setup-elm@releases/v1
+    - name: Setup Elm environment
+      uses: JorelAli/setup-elm@v1
       with:
         elm-version: 0.19.1
     - name: Compile Elm project
