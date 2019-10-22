@@ -109,8 +109,8 @@ update msg model =
 globalStyleNode : Html Msg
 globalStyleNode = global 
   [ 
-    selector "body" [ backgroundImage (url "bg.jpg") ]
-    , class "card" [
+    selector "body" [ backgroundImage (url "bg.jpg"), padding (px 10) ]
+    , Css.Global.class "card" [
       backgroundColor (hex "#ffffff")
       , Css.width (px cardWidth)
       , Css.height (px cardHeight)
