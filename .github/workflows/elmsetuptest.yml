@@ -9,9 +9,9 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Install Elm 0.19.1
+    - name: Install Elm 0.19.0
       uses: jorelali/setup-elm@releases/v1
       with:
-        elm-version: 0.19.1
+        elm-version: 0.19.0
     - name: Compile Elm project
       run: elm make src/Main.elm 
