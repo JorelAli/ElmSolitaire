@@ -9,13 +9,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Fetch elm binary
-      run: curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz
-    - name: Unzip elm
-      run: gunzip elm.gz
-    - name: Adds executable permission & install
+    - name: Install Elm 0.19.1
       run: |
+        curl -L -o elm.gz https://github.com/elm/compiler/releases/download/0.19.1/binary-for-linux-64-bit.gz
+        gunzip elm.gz
         chmod +x elm
         sudo mv elm /usr/local/bin/
-    - name: Execute
+    - name: Compile Elm project
       run: elm make src/Main.elm 
